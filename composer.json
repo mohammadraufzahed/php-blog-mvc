@@ -1,0 +1,24 @@
+{
+    "name": "mohammadraufzahed/php-blog-mvc",
+    "description": "A Simple PHP MVC Blog",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "SimplePHPFramework\\kernel\\": "./kernel/",
+            "SimplePHPFramework\\controllers\\": "./controllers/",
+            "SimplePHPFramework\\models\\": "./models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mohammad Raufzahed",
+            "email": "mohammadraufzahed@protonmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+        "ext-pdo": "*",
+        "pug-php/pug": "^3.4"
+    }
+}
