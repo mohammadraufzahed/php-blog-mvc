@@ -29,11 +29,30 @@ class MainController
         {"id":10,"title":"VP Quality Control","image":"http://dummyimage.com/230x100.png/5fa2dd/ffffff","body":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.","author":"Shandy Crutchley","date":"5/2/2021"}]';
         $dataAssoc = json_decode($dataJson, true);
         // Render the template
-        return $this->viewEngine->render("home/index.pug", [
+        $this->viewEngine->render("home/index.pug", [
             "title" => "PHP MVC Blog",
             "author" => "Mohammad Raufzahed",
             "authorDescription" => "A Profassional Web Developer",
             "articles" => $dataAssoc
         ]);
+    }
+
+    public function login()
+    {
+        $this->viewEngine->render("auth/login/index.pug", [
+            "title" => "PHP MVC Blog | Login"
+        ]);
+    }
+
+    public function loginRequest()
+    {
+    }
+
+    public function signup()
+    {
+        $this->viewEngine->render("auth/signup/index.pug");
+    }
+    public function signupRequest()
+    {
     }
 }
