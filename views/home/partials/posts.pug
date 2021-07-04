@@ -1,0 +1,9 @@
+div(class="w-100 container-fluid")
+    div(class="2-100 row justify-content-center")
+        each article in $articles
+            article(class="col-5 text-center m-3 row rounded bg-light")
+                image(src=article.image, class="col-12 img-fluid h-50 rounded")
+                span(class="col-12")=article.author
+                span(class="col-12")=article.date
+                h3(class="col-12")=article.title
+                p(class="col-12")=article.body
