@@ -36,23 +36,4 @@ class MainController
             "articles" => $dataAssoc
         ]);
     }
-
-    public function login()
-    {
-        $this->viewEngine->render("auth/login/index.pug", [
-            "title" => "PHP MVC Blog | Login"
-        ]);
-    }
-
-    public function loginRequest()
-    {
-    }
-
-    public function signup()
-    {
-        $this->viewEngine->render("auth/signup/index.pug");
-    }
-    public function signupRequest()
-    {
-    }
 }
