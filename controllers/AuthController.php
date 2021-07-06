@@ -4,20 +4,18 @@ namespace SimplePHPFramework\controllers;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use PDO;
-use SimplePHPFramework\kernel\Database;
 use Rakit\Validation\Validator;
 use SimplePHPFramework\kernel\View;
+use SimplePHPFramework\models\AuthModel;
 
 class AuthController
 {
     private View $viewEngine;
-    private Database $db;
-
+    private AuthModel $authModel;
     public function __construct()
     {
         $this->viewEngine = new View;
-        $this->db = new Database();
+        $this->authModel = new AuthModel();
     }
     public function login()
     {
@@ -47,16 +45,13 @@ class AuthController
         $username = $_POST["username"];
         $password = $_POST["password"];
         // Select the user
-        $this->db->query("SELECT password, is_admin FROM users WHERE username=:username");
-        $this->db->bind(":username", $username, PDO::PARAM_STR);
-        if ($this->db->execute() && $this->db->rowEffected() == 1) {
-            $userData = $this->db->fetchAsObject();
-            if (password_verify($password, $userData->password)) {
-                $_SESSION["username"] = $username;
-                $_SESSION["isLoggedIn"] = true;
-                $_SESSION["isAdmin"] = ($userData->is_admin == "Y") ? true : false;
-                header("location: /dashboard");
-            }
+        $userData = $this->authModel->getUser($username);
+        if (password_verify($password, $userData->password)) {
+            session_start();
+            $_SESSION["username"] = $username;
+            $_SESSION["isLoggedIn"] = true;
+            $_SESSION["isAdmin"] = ($userData->is_admin == "Y") ? true : false;
+            header("location: /dashboard");
         } else {
             echo "Something goes wrong or user not found";
         }
@@ -91,36 +86,14 @@ class AuthController
             var_dump($erros->firstOfAll());
             echo "</pre>";
         }
-        // Check the user exists or not
-        $this->db->query("SELECT * FROM users WHERE username=:username");
-        $this->db->bind(":username", $username, PDO::PARAM_STR);
-        $this->db->execute();
-        if ($this->db->rowEffected() == 1) {
-            echo "User Exists";
-            exit;
-        }
-        // Add the user
-        $this->db->query("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
-        $this->db->bind(":username", $username, PDO::PARAM_STR);
-        $this->db->bind(":email", $email, PDO::PARAM_STR);
-        $this->db->bind(":password", $password, PDO::PARAM_STR);
-        if (!$this->db->execute()) {
-            echo "Something goes wrong";
+        $userSignup = $this->authModel->signupUser($username, $email, $password);
+        if (!$userSignup) {
         } else {
+            session_start();
             $_SESSION["username"] = $username;
             $_SESSION["isLoggedIn"] = true;
             $_SESSION["isAdmin"] = false;
             header("location: /dashboard");
-        }
-    }
-
-    public static function isLoggedIn(): bool
-    {
-        session_start();
-        if ($_SESSION["isLoggedIn"] == true) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -136,6 +109,17 @@ class AuthController
             header("location: /");
             exit;
         }
+    }
+
+    public static function isAdmin(): bool
+    {
+        session_start();
+        return $_SESSION['isAdmin'] ?? false;
+    }
+    public static function isLoggedIn(): bool
+    {
+        session_start();
+        return $_SESSION["isLoggedIn"] ? true : false;
     }
 
     public function permission()
