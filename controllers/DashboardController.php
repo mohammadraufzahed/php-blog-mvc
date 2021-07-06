@@ -17,6 +17,15 @@ class DashboardController
 
     public function index()
     {
+        $this->permission();
         $this->viewEngine->render("dashboard/home/index.pug");
+    }
+
+    private function permission()
+    {
+        if (!AuthController::isLoggedIn()) {
+            header("location: /");
+            exit;
+        }
     }
 }
