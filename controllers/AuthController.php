@@ -124,6 +124,20 @@ class AuthController
         }
     }
 
+    public function logout()
+    {
+        if ($this::isLoggedIn()) {
+            session_start();
+            session_destroy();
+            $_SESSION = [];
+            header("location: /");
+            exit;
+        } else {
+            header("location: /");
+            exit;
+        }
+    }
+
     public function permission()
     {
         if ($this::isLoggedIn()) {
