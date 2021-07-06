@@ -19,6 +19,7 @@
     "minimum-stability": "beta",
     "require": {
         "ext-pdo": "*",
-        "pug-php/pug": "^3.4"
+        "pug-php/pug": "^3.4",
+        "rakit/validation": "^1.4"
     }
 }

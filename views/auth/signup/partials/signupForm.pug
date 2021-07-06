@@ -1,0 +1,17 @@
+div(class="row justify-content-center mt-4")
+    div(class="card col-6")
+        div(class="card-body text-center")
+            h5(class="card-title fs-2") Signup
+            form(action="/signup", method="post")
+                div(class="mb-3 mt-3")
+                    input(id="usernameInput", class="form-control", type="text", name="username", placeholder="Username")
+                div(class="mb-3 mt-3")
+                    input(id="emailInput", class="form-control", type="email", name="email", placeholder="Email")
+                div(class="mb-3")
+                    input(id="passwordInput", class="form-control", type="password", name="password", placeholder="Password")
+                div(class="mb-3")
+                    input(id="passwordConfirmInput", class="form-control", type="password", name="passwordConfirm", placeholder="Password Confirm")
+                div(class="mb-3")
+                    button(type="submit", class="btn btn-primary") Signup
+                div(class="mb-3") 
+                    a(href="/login", class="link-danger") Do you have an account? 
