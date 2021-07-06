@@ -28,6 +28,36 @@ class AuthController
 
     public function loginRequest()
     {
+        // Validate the Data
+        $validator = new Validator();
+        $validation = $validator->make($_POST, [
+            'username' => 'required',
+            'password' => 'required|min:6'
+        ]);
+        $validation->validate();
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            echo "<pre>";
+            var_dump($errors);
+            echo "</pre>";
+            exit;
+        }
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        // Select the user
+        $this->db->query("SELECT password, is_admin FROM users WHERE username=:username");
+        $this->db->bind(":username", $username, PDO::PARAM_STR);
+        if ($this->db->execute() && $this->db->rowEffected() == 1) {
+            $userData = $this->db->fetchAsObject();
+            if (password_verify($password, $userData->password)) {
+                $_SESSION["username"] = $username;
+                $_SESSION["isLoggedIn"] = true;
+                $_SESSION["isAdmin"] = ($userData->is_admin == "Y") ? true : false;
+                header("location: /dashboard");
+            }
+        } else {
+            echo "Something goes wrong or user not found";
+        }
     }
 
     public function signup()
