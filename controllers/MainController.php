@@ -33,7 +33,8 @@ class MainController
             "title" => "PHP MVC Blog",
             "author" => "Mohammad Raufzahed",
             "authorDescription" => "A Profassional Web Developer",
-            "articles" => $dataAssoc
+            "articles" => $dataAssoc,
+            "isLoggedIn" => AuthController::isLoggedIn(),
         ]);
     }
 }

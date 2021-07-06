@@ -21,5 +21,6 @@ $router->post('/login', [$authController, "loginRequest"]);
 $router->get('/signup', [$authController, "signup"]);
 $router->post('/signup', [$authController, "signupRequest"]);
 $router->get('/dashboard', [$dashboardController, "index"]);
+$router->get('/logout', [$authController, 'logout']);
 
 $router->start();

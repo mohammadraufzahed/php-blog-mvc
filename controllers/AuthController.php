@@ -21,6 +21,7 @@ class AuthController
     }
     public function login()
     {
+        $this->permission();
         $this->viewEngine->render("auth/login/index.pug", [
             "title" => "PHP MVC Blog | Login"
         ]);
@@ -28,6 +29,7 @@ class AuthController
 
     public function loginRequest()
     {
+        $this->permission();
         // Validate the Data
         $validator = new Validator();
         $validation = $validator->make($_POST, [
@@ -62,12 +64,14 @@ class AuthController
 
     public function signup()
     {
+        $this->permission();
         $this->viewEngine->render("auth/signup/index.pug", [
             "title" => "PHP MVC Blog | Signup"
         ]);
     }
     public function signupRequest()
     {
+        $this->permission();
         // Validate the inputs
         $validator = new Validator();
         $validation = $validator->make($_POST, [
@@ -107,6 +111,24 @@ class AuthController
             $_SESSION["isLoggedIn"] = true;
             $_SESSION["isAdmin"] = false;
             header("location: /dashboard");
+        }
+    }
+
+    public static function isLoggedIn(): bool
+    {
+        session_start();
+        if ($_SESSION["isLoggedIn"] == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function permission()
+    {
+        if ($this::isLoggedIn()) {
+            header("location: /");
+            exit;
         }
     }
 }
