@@ -8,9 +8,9 @@ use PDOException;
 use PDOStatement;
 
 define("DB_HOST", "localhost");
-define("DB_USER", "product_crud");
-define("DB_PASS", "09351515982");
-define("DB_NAME", "product_crud");
+define("DB_USER", "php_mvc_blog");
+define("DB_PASS", "09351515982Mr");
+define("DB_NAME", "php_mvc_blog");
 
 class Database
 {
@@ -43,9 +43,13 @@ class Database
      * Execute the statement
      * @return void
      */
-    public function execute(): void
+    public function execute(): bool
     {
-        $this->stmt->execute();
+        if ($this->stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
