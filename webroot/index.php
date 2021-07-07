@@ -8,9 +8,9 @@ use SimplePHPFramework\kernel\Router;
 require __DIR__ . "/../vendor/autoload.php";
 
 // Controllers Instans
-$mainController = new MainController;
-$authController = new AuthController;
-$dashboardController = new DashboardController;
+$mainController = new MainController();
+$authController = new AuthController();
+$dashboardController = new DashboardController();
 // Router
 $router = new Router();
 
@@ -20,7 +20,8 @@ $router->get('/login', [$authController, "login"]);
 $router->post('/login', [$authController, "loginRequest"]);
 $router->get('/signup', [$authController, "signup"]);
 $router->post('/signup', [$authController, "signupRequest"]);
-$router->get('/dashboard', [$dashboardController, "index"]);
 $router->get('/logout', [$authController, 'logout']);
+$router->get('/dashboard', [$dashboardController, "index"]);
+$router->get('/dashboard/posts', [$dashboardController, "posts"]);
 
 $router->start();
