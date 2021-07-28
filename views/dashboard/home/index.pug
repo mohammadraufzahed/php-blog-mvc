@@ -34,7 +34,8 @@ html(lang='en')
                     .mr-md-3.mr-xl-5
                       h2="Welcome back, " + $username
                   .d-flex.justify-content-between.align-items-end.flex-wrap
-                    button.btn.btn-primary.mt-2.mt-xl-0 New Post
+                    a(href="/dashboard/posts/new")
+                      button.btn.btn-primary.mt-2.mt-xl-0 New Post
             .row
               .col-md-12.grid-margin.stretch-card
                 .card
