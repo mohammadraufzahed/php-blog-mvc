@@ -25,4 +25,14 @@ class View
             $pugEngine->display($templatePath, $params);
         }
     }
+    /**
+     * Redirect the user to another page and render the page view
+     * @param string $url
+     * @return void
+     */
+    static public function redirect(string $url)
+    {
+        header("Location: " . $url);
+        exit;
+    }
 }

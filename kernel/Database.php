@@ -8,8 +8,8 @@ use PDOException;
 use PDOStatement;
 
 define("DB_HOST", "localhost");
-define("DB_USER", "php_mvc_blog");
-define("DB_PASS", "09351515982Mr");
+define("DB_USER", "morty");
+define("DB_PASS", "mohammad82");
 define("DB_NAME", "php_mvc_blog");
 
 class Database
