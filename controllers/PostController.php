@@ -116,6 +116,21 @@ class PostController
         }
     }
 
+    /**
+     * Delete the post from the database and redirect to the posts page
+     * @return void
+     */
+    public function deletePost()
+    {
+        $this->permission();
+        // Get the id from the get request
+        $id = $_GET['id'];
+        // Delete the post from the database
+        if ($this->postsModel->deletePost($id)) {
+            $this->viewEngine->redirect("/dashboard/posts");
+        }
+    }
+
     private function permission()
     {
         if (!AuthController::isLoggedIn()) {

@@ -86,4 +86,16 @@ class PostsModel
         $this->db->bind("status", $status, PDO::PARAM_STR);
         return $this->db->execute();
     }
+
+    /**
+     * Delete the post from the database
+     * @param int $id
+     * @return bool
+     */
+    public function deletePost(int $id): bool
+    {
+        $this->db->query("DELETE FROM posts WHERE id=:id");
+        $this->db->bind("id", $id, PDO::PARAM_INT);
+        return $this->db->execute();
+    }
 }
