@@ -4,6 +4,7 @@ use SimplePHPFramework\controllers\AuthController;
 use SimplePHPFramework\controllers\MainController;
 use SimplePHPFramework\controllers\DashboardController;
 use SimplePHPFramework\controllers\PostController;
+use SimplePHPFramework\controllers\UsersController;
 use SimplePHPFramework\kernel\Router;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -13,6 +14,7 @@ $mainController = new MainController();
 $authController = new AuthController();
 $dashboardController = new DashboardController();
 $postController = new PostController();
+$usersController = new UsersController();
 
 // Router
 $router = new Router();
@@ -35,5 +37,9 @@ $router->post('/dashboard/posts/new', [$postController, "newPostAction"]);
 $router->get('/dashboard/posts/edit', [$postController, "editPost"]);
 $router->post('/dashboard/posts/edit', [$postController, "updatePost"]);
 $router->get('/dashboard/posts/delete', [$postController, "deletePost"]);
+$router->get('/dashboard/users', [$usersController, "index"]);
+$router->get('/dashboard/users/delete', [$usersController, "delete"]);
+$router->get('/dashboard/users/edit', [$usersController, "edit"]);
+$router->post('/dashboard/users/edit', [$usersController, "update"]);
 
 $router->start();
