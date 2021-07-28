@@ -15,12 +15,16 @@ $dashboardController = new DashboardController();
 $router = new Router();
 
 // You must declare the routers in this place
+
+// Home Page
 $router->get('/', [$mainController, "index"]);
+// Auth Pages
 $router->get('/login', [$authController, "login"]);
 $router->post('/login', [$authController, "loginRequest"]);
 $router->get('/signup', [$authController, "signup"]);
 $router->post('/signup', [$authController, "signupRequest"]);
 $router->get('/logout', [$authController, 'logout']);
+// Admin Pages
 $router->get('/dashboard', [$dashboardController, "index"]);
 $router->get('/dashboard/posts', [$dashboardController, "posts"]);
 $router->get('/dashboard/posts/new', [$dashboardController, "newPost"]);
