@@ -3,6 +3,7 @@
 use SimplePHPFramework\controllers\AuthController;
 use SimplePHPFramework\controllers\MainController;
 use SimplePHPFramework\controllers\DashboardController;
+use SimplePHPFramework\controllers\PostController;
 use SimplePHPFramework\kernel\Router;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -11,6 +12,8 @@ require __DIR__ . "/../vendor/autoload.php";
 $mainController = new MainController();
 $authController = new AuthController();
 $dashboardController = new DashboardController();
+$postController = new PostController();
+
 // Router
 $router = new Router();
 
@@ -26,9 +29,9 @@ $router->post('/signup', [$authController, "signupRequest"]);
 $router->get('/logout', [$authController, 'logout']);
 // Admin Pages
 $router->get('/dashboard', [$dashboardController, "index"]);
-$router->get('/dashboard/posts', [$dashboardController, "posts"]);
-$router->get('/dashboard/posts/new', [$dashboardController, "newPost"]);
-$router->post('/dashboard/posts/new', [$dashboardController, "newPostAction"]);
-
+$router->get('/dashboard/posts', [$postController, "posts"]);
+$router->get('/dashboard/posts/new', [$postController, "newPost"]);
+$router->post('/dashboard/posts/new', [$postController, "newPostAction"]);
+$router->get('/dashboard/posts/edit', [$postController, "editPost"]);
 
 $router->start();

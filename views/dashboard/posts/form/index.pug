@@ -43,11 +43,16 @@ head
                         th Create Time
                     tbody
                       each post in $allPosts
-												tr
-													td=post.title
-													td=post.user_id
-													td=post.published
-													td=post.created_at
+                          tr
+                            td=post.title
+                            td=post.user_id
+                            td=post.published
+                            td=post.created_at
+                            td
+                              a(href='/dashboard/posts/delete?id=' + post.id target='_blank' rel='noopener noreferrer')
+                                button.btn-danger Delete
+                              a(href='/dashboard/posts/edit?id=' + post.id target='_blank' rel='noopener noreferrer')
+                                button.btn-success Edit
       // content-wrapper ends
       // partial:../../partials/_footer.html
       footer.footer
