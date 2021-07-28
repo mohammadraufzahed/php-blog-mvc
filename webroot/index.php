@@ -33,5 +33,6 @@ $router->get('/dashboard/posts', [$postController, "posts"]);
 $router->get('/dashboard/posts/new', [$postController, "newPost"]);
 $router->post('/dashboard/posts/new', [$postController, "newPostAction"]);
 $router->get('/dashboard/posts/edit', [$postController, "editPost"]);
+$router->post('/dashboard/posts/edit', [$postController, "updatePost"]);
 
 $router->start();

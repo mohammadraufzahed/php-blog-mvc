@@ -74,6 +74,48 @@ class PostController
         return $this->viewEngine->render('dashboard/posts/new/index.pug');
     }
 
+    /**
+     * Edit the post and save the changes in the database
+     * @param int|string $id
+     * @param string $title
+     * @param string $body
+     * @param string $status
+     * @return bool
+     */
+    public function editPost()
+    {
+        $this->permission();
+        // Get the post id from the GET request
+        $postId = $_GET['id'];
+        // Fetch the single post from the database
+        $post = $this->postsModel->fetchPost($postId);
+        // If the post was found, render the edit form else redirect to the posts page
+        if ($post) {
+            $this->viewEngine->render('dashboard/posts/edit/index.pug', [
+                "post" => $post
+            ]);
+        } else {
+            $this->viewEngine->redirect("/dashboard/posts");
+        }
+    }
+    /**
+     * Update the post in the database and redirect to the posts page
+     * @return bool
+     */
+    public function updatePost()
+    {
+        $this->permission();
+        // Get the id and title and body and status from the post request
+        $id = $_POST['id'];
+        $title = $_POST['title'];
+        $body = $_POST['body'];
+        $status = $_POST['status'];
+        // Update the post in the database
+        if ($this->postsModel->updatePost($id, $title, $body, $status)) {
+            $this->viewEngine->redirect("/dashboard/posts");
+        }
+    }
+
     private function permission()
     {
         if (!AuthController::isLoggedIn()) {
