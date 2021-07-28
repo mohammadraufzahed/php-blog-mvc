@@ -46,4 +46,21 @@ class AuthModel
             return false;
         }
     }
+
+    /**
+     * Return the id of the user from the database
+     * @param string $username
+     * @return mixed
+     */
+    public function getUserId(string $username): int
+    {
+        $this->db->query("SELECT id FROM users WHERE username=:username");
+        $this->db->bind(":username", $username, PDO::PARAM_STR);
+        if ($this->db->execute() && $this->db->rowEffected() == 1) {
+            $id = (int) $this->db->fetchAsObject()->id;
+            return $id;
+        } else {
+            dd("user not found");
+        }
+    }
 }

@@ -23,5 +23,8 @@ $router->post('/signup', [$authController, "signupRequest"]);
 $router->get('/logout', [$authController, 'logout']);
 $router->get('/dashboard', [$dashboardController, "index"]);
 $router->get('/dashboard/posts', [$dashboardController, "posts"]);
+$router->get('/dashboard/posts/new', [$dashboardController, "newPost"]);
+$router->post('/dashboard/posts/new', [$dashboardController, "newPostAction"]);
+
 
 $router->start();

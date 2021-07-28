@@ -4,15 +4,19 @@ namespace SimplePHPFramework\controllers;
 
 require __DIR__ . "/../vendor/autoload.php";
 
+use Rakit\Validation\Validator;
+
 use SimplePHPFramework\kernel\View;
 use SimplePHPFramework\models\DashboardModel;
 use SimplePHPFramework\models\PostsModel;
+use SimplePHPFramework\models\AuthModel;
 
 class DashboardController
 {
     private View $viewEngine;
     private DashboardModel $dashboardModel;
     private PostsModel $postsModel;
+    private AuthModel $authModel;
 
     public function __construct()
     {
@@ -20,6 +24,7 @@ class DashboardController
         $this->viewEngine = new View;
         $this->dashboardModel = new DashboardModel();
         $this->postsModel = new PostsModel();
+        $this->authModel = new AuthModel();
     }
 
     public function index()
@@ -51,11 +56,45 @@ class DashboardController
         ]);
     }
 
+    public function newPost()
+    {
+        $this->permission();
+        return $this->viewEngine->render('dashboard/posts/new/index.pug');
+    }
+
+    public function newPostAction()
+    {
+        $this->permission();
+        // Validate the Data
+        $validator = new Validator();
+        $validation = $validator->make($_POST, [
+            'title' => 'required',
+            'body' => 'required|min:20',
+            'status' => 'required'
+        ]);
+        // If validation was failed, return the errors
+        if ($validation->fails()) {
+            dd($validation->errors());
+        }
+        // If validation was success, save the title and body and status from the post request
+        $title = $_POST['title'];
+        $body = $_POST['body'];
+        $status = $_POST['status'];
+        // Start the session and save the username
+        session_start();
+        $username = $_SESSION["username"];
+        // Get the user id from the Auth model
+        $user_id = $this->authModel->getUserId($username);
+        // Save the post in the database and if the post was saved, redirect to the posts page
+        if ($this->postsModel->savePost($user_id, $title, $body, $status)) {
+            $this->viewEngine->redirect("/dashboard/posts");
+        }
+    }
+
     private function permission()
     {
         if (!AuthController::isLoggedIn()) {
-            header("location: /");
-            exit;
+            $this->viewEngine->redirect("/login");
         }
     }
 }

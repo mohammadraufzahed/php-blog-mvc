@@ -35,4 +35,22 @@ class PostsModel
             return $this->db->fetchAsObject();
         }
     }
+
+    /**
+     * Save the post to the database
+     * @param string $user_id
+     * @param string $title
+     * @param string $body
+     * @param string $status
+     * @return bool
+     */
+    public function savePost(string $user_id, string $title, string $body, string $status): bool
+    {
+        $this->db->query("INSERT INTO posts (user_id, title, body, published) VALUES (:user_id, :title, :body, :status)");
+        $this->db->bind("user_id", $user_id, PDO::PARAM_INT);
+        $this->db->bind("title", $title, PDO::PARAM_STR);
+        $this->db->bind("body", $body, PDO::PARAM_STR);
+        $this->db->bind("status", $status, PDO::PARAM_STR);
+        return $this->db->execute();
+    }
 }
