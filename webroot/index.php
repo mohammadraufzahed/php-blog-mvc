@@ -44,5 +44,7 @@ $router->post('/dashboard/users/edit', [$usersController, "update"]);
 $router->get("/dashboard/users/new", [$usersController, "new"]);
 $router->post("/dashboard/users/new", [$usersController, "newAction"]);
 $router->get("/dashboard/settings/account", [$usersController, "userSetting"]);
+$router->get('/dashboard/settings/site', [$dashboardController, "settingPage"]);
+$router->post('/dashboard/settings/site', [$dashboardController, "settingAction"]);
 
 $router->start();
