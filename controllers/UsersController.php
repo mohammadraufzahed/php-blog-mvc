@@ -3,16 +3,22 @@
 namespace SimplePHPFramework\controllers;
 
 use SimplePHPFramework\models\UsersModel;
+use SimplePHPFramework\models\AuthModel;
 use SimplePHPFramework\kernel\View;
 use Rakit\Validation\Validator;
 
 require __DIR__ . "/../vendor/autoload.php";
 
+/**
+ * Class UsersController
+ * @package SimplePHPFramework\controllers
+ */
 
 class UsersController
 {
     private View $viewEngine;
     private UsersModel $usersModel;
+    private AuthModel $authModel;
 
     public function __construct()
     {
@@ -20,6 +26,8 @@ class UsersController
         $this->viewEngine = new View();
         // Initialize the Users Model
         $this->usersModel = new UsersModel();
+        // Initialize the Auth Model
+        $this->authModel = new AuthModel();
     }
 
     /**
@@ -56,7 +64,7 @@ class UsersController
     public function edit()
     {
         // Check the permission
-        $this->permission();
+//        $this->permission();
         // Get the user id from the get request
         $user_id = $_GET['id'];
         // Get the user from the database
@@ -69,10 +77,10 @@ class UsersController
      * Update the User in the database and redirect to the users page
      * @return void
      */
-    function update()
+    public function update()
     {
         // Check the permission
-        $this->permission();
+//        $this->permission();
         // Get the username and email from the post request
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -124,6 +132,23 @@ class UsersController
         }
     }
 
+    /**
+     * User Settings page
+     * @return void
+     */
+    public function userSetting()
+    {
+        // Check the permission
+//        $this->permission();
+        // Getting the user id
+        session_start();
+        $username = $_SESSION['username'] ?? "";
+        $id = $this->authModel->getUserId($username);
+        // Redirect to the Edit page
+        $this->viewEngine->redirect("/dashboard/users/edit?id=$id");
+
+    }
+    
     /**
      * Check the session if user was not admin and was not logged in redirect to dashboard page 
      */

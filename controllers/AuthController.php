@@ -117,7 +117,7 @@ class AuthController
     public static function isLoggedIn(): bool
     {
         session_start();
-        return $_SESSION["isLoggedIn"] ? true : false;
+        return (bool)$_SESSION["isLoggedIn"];
     }
 
     public function permission()
