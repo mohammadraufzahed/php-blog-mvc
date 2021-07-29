@@ -1,24 +1,24 @@
 nav#sidebar.sidebar.sidebar-offcanvas
-          ul.nav
-            li.nav-item
-              a.nav-link(href='/dashboard')
+    ul.nav
+        li.nav-item
+            a.nav-link(href='/dashboard')
                 i.mdi.mdi-home.menu-icon
                 span.menu-title Dashboard
-            li.nav-item
-              a.nav-link(href='/dashboard/posts')
+        li.nav-item
+            a.nav-link(href='/dashboard/posts')
                 i.mdi.mdi-note.menu-icon
                 span.menu-title Posts
-            li.nav-item
-              a.nav-link(href='/dashboard/users')
+        li.nav-item
+            a.nav-link(href='/dashboard/users')
                 i.mdi.mdi-account.menu-icon
                 span.menu-title Users
-            li.nav-item
-              a.nav-link(href='#settings' data-toggle='collapse' aria-expanded='false' aria-controls='auth')
+        li.nav-item
+            a.nav-link(href='#settings' data-toggle='collapse' aria-expanded='false' aria-controls='auth')
                 i.mdi.mdi-cogs.menu-icon
                 span.menu-title Settings
-              #settings.collapse 
+            #settings.collapse
                 ul.nav.flex-column.sub-menu
-                  li.nav-item
-                    a.nav-link(href='/dashboard/settings/account') Account 
-                  li.nav-item
-                    a.nav-link(href='/dashboard/settings/site')  Site
+                    li.nav-item
+                        a.nav-link(href='/dashboard/settings/account') Account
+                    li.nav-item
+                        a.nav-link(href='/dashboard/settings/site')  Site

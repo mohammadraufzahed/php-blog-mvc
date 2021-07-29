@@ -1,70 +1,70 @@
 doctype html
 head
-  // Required meta tags
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
-  title Majestic Admin
-  // plugins:css
-  link(rel='stylesheet' href='/static/dashboard/vendors/mdi/css/materialdesignicons.min.css')
-  link(rel='stylesheet' href='/static/dashboard/vendors/base/vendor.bundle.base.css')
-  // endinject
-  // inject:css
-  link(rel='stylesheet' href='/static/dashboard/css/style.css')
-  // endinject
-  link(rel='shortcut icon' href='/static/dashboard/images/favicon.png')
+    // Required meta tags
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    title Majestic Admin
+    // plugins:css
+    link(rel='stylesheet' href='/static/dashboard/vendors/mdi/css/materialdesignicons.min.css')
+    link(rel='stylesheet' href='/static/dashboard/vendors/base/vendor.bundle.base.css')
+    // endinject
+    // inject:css
+    link(rel='stylesheet' href='/static/dashboard/css/style.css')
+    // endinject
+    link(rel='shortcut icon' href='/static/dashboard/images/favicon.png')
 .container-scroller
-  // partial:../../partials/_navbar.html
-  include ../../partials/navbar.pug
-  // partial
-  .container-fluid.page-body-wrapper
-    // partial:../../partials/_sidebar.html
-    include ../../partials/sidebar.pug
+    // partial:../../partials/_navbar.html
+    include ../../partials/navbar.pug
     // partial
-    .main-panel
-      .content-wrapper
-        .row
-              .col-md-12.grid-margin
-                .d-flex.justify-content-between.flex-wrap
-                  .d-flex.justify-content-between.align-items-end.flex-wrap
-                    button.btn.btn-primary.mt-2.mt-xl-0 
-                      a(href="/dashboard/posts/new", ).text-white New Post
-        .row
-          .col-lg-12.grid-margin.stretch-card
-            .card
-              .card-body
-                h4.card-title Posts
-                .table-responsive
-                  table.table.table-striped
-                    thead
-                      tr
-                        th Title
-                        th Writer
-                        th Publish Status
-                        th Create Time
-                    tbody
-                      each post in $allPosts
-                          tr
-                            td=post.title
-                            td=post.user_id
-                            td=post.published
-                            td=post.created_at
-                            td
-                              a(href='/dashboard/posts/delete?id=' + post.id target='_blank' rel='noopener noreferrer')
-                                button.btn-danger Delete
-                              a(href='/dashboard/posts/edit?id=' + post.id target='_blank' rel='noopener noreferrer')
-                                button.btn-success Edit
-      // content-wrapper ends
-      // partial:../../partials/_footer.html
-      footer.footer
-        .d-sm-flex.justify-content-center.justify-content-sm-between
-          span.text-muted.d-block.text-center.text-sm-left.d-sm-inline-block Copyright &copy; bootstrapdash.com 2020
-          span.float-none.float-sm-right.d-block.mt-1.mt-sm-0.text-center
-            | Free 
-            a(href='https://www.bootstrapdash.com/' target='_blank') Bootstrap dashboard template
-            |  from Bootstrapdash.com
-      // partial
-    // main-panel ends
-  // page-body-wrapper ends
+    .container-fluid.page-body-wrapper
+        // partial:../../partials/_sidebar.html
+        include ../../partials/sidebar.pug
+        // partial
+        .main-panel
+            .content-wrapper
+                .row
+                    .col-md-12.grid-margin
+                        .d-flex.justify-content-between.flex-wrap
+                            .d-flex.justify-content-between.align-items-end.flex-wrap
+                                button.btn.btn-primary.mt-2.mt-xl-0
+                                    a(href="/dashboard/posts/new", ).text-white New Post
+                .row
+                    .col-lg-12.grid-margin.stretch-card
+                        .card
+                            .card-body
+                                h4.card-title Posts
+                                .table-responsive
+                                    table.table.table-striped
+                                        thead
+                                            tr
+                                                th Title
+                                                th Writer
+                                                th Publish Status
+                                                th Create Time
+                                        tbody
+                                            each post in $allPosts
+                                                tr
+                                                    td=post.title
+                                                    td=post.user_id
+                                                    td=post.published
+                                                    td=post.created_at
+                                                    td
+                                                        a(href='/dashboard/posts/delete?id=' + post.id target='_blank' rel='noopener noreferrer')
+                                                            button.btn-danger Delete
+                                                        a(href='/dashboard/posts/edit?id=' + post.id target='_blank' rel='noopener noreferrer')
+                                                            button.btn-success Edit
+            // content-wrapper ends
+            // partial:../../partials/_footer.html
+            footer.footer
+                .d-sm-flex.justify-content-center.justify-content-sm-between
+                    span.text-muted.d-block.text-center.text-sm-left.d-sm-inline-block Copyright &copy; bootstrapdash.com 2020
+                    span.float-none.float-sm-right.d-block.mt-1.mt-sm-0.text-center
+                        | Free
+                        a(href='https://www.bootstrapdash.com/' target='_blank') Bootstrap dashboard template
+                        |  from Bootstrapdash.com
+            // partial
+        // main-panel ends
+    // page-body-wrapper ends
 // container-scroller
 // plugins:js
 script(src='/static/dashboard/vendors/base/vendor.bundle.base.js')

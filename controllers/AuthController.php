@@ -37,9 +37,7 @@ class AuthController
         $validation->validate();
         if ($validation->fails()) {
             $errors = $validation->errors();
-            echo "<pre>";
-            var_dump($errors);
-            echo "</pre>";
+            dd($errors);
             exit;
         }
         $username = $_POST["username"];

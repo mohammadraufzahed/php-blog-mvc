@@ -65,9 +65,9 @@ class Database
 
     /**
      * Fetch the result as an object
-     * @return object
+     * @return object|bool
      */
-    public function fetchAsObject(): object
+    public function fetchAsObject(): object|bool
     {
         return $this->stmt->fetch(PDO::FETCH_OBJ);
     }

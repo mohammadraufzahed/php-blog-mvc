@@ -20,7 +20,7 @@ class DashboardModel
         $this->db->query("select created_at FROM users WHERE username=:username ");
         $this->db->bind(":username", $username, PDO::PARAM_STR);
         if ($this->db->execute()) {
-            return $this->db->fetchAsObject();
+            return $this->db->fetchAsObject()->created_at ?? "";
         }
     }
 

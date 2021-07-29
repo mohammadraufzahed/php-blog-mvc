@@ -30,7 +30,7 @@ class DashboardController
         $this->permission();
         session_start();
         $username = $_SESSION["username"];
-        $signupDate = $this->dashboardModel->signupDate($username)->created_at;
+        $signupDate = $this->dashboardModel->signupDate($username);
         $countPost = $this->dashboardModel->countPosts()->countPost;
         $countUser = $this->dashboardModel->countUser()->countUser;
         $allPosts = $this->postsModel->fetchAllPosts();

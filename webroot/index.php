@@ -41,5 +41,7 @@ $router->get('/dashboard/users', [$usersController, "index"]);
 $router->get('/dashboard/users/delete', [$usersController, "delete"]);
 $router->get('/dashboard/users/edit', [$usersController, "edit"]);
 $router->post('/dashboard/users/edit', [$usersController, "update"]);
+$router->get("/dashboard/users/new", [$usersController, "new"]);
+$router->post("/dashboard/users/new", [$usersController, "newAction"]);
 
 $router->start();

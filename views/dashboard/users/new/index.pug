@@ -30,21 +30,19 @@ html(lang='en')
                             .col-12.grid-margin.stretch-card
                                 .card
                                     .card-body
-                                        h4.card-title Add the new post
-                                        form(action="/dashboard/posts/new" method="post").forms-sample
+                                        h4.card-title New user
+                                        form(action="/dashboard/users/new" method="post").forms-sample
                                             .form-group
-                                                label(for='title') Title
-                                                input#title.form-control(type='text' placeholder='Title' name='title')
+                                                label(for='title') Username
+                                                input.form-control(type='text' placeholder='Username' name='username' required)
                                             .form-group
-                                                label(for='body') Body
-                                                textarea(name="body")#body.form-control(rows='4')
+                                                label(for='body') Email
+                                                input.form-control(type='email' placeholder='Email' name='email' required)
                                             .form-group
-                                                label.col-form-label Status
-                                                select(name="status").form-control
-                                                    option(selected value="Y") Published
-                                                    option(value="N") Draft
-                                            button.btn.btn-primary.mr-2(type='submit') Save Post
-                                            a(href="/dashboard/posts" class="text-dark")
+                                                label(for='title') Password
+                                                input.form-control(type='password' placeholder='Password' name='password' required)
+                                            button.btn.btn-primary.mr-2(type='submit') Save User
+                                            a(href="/dashboard/users" class="text-dark")
                                                 button.btn.btn-light Cancel
                     // content-wrapper ends
                     // partial:../../partials/_footer.html

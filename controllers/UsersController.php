@@ -17,9 +17,9 @@ class UsersController
     public function __construct()
     {
         // Initialize the viewEngine
-        $this->viewEngine = new View;
+        $this->viewEngine = new View();
         // Initialize the Users Model
-        $this->usersModel = new UsersModel;
+        $this->usersModel = new UsersModel();
     }
 
     /**
@@ -80,6 +80,48 @@ class UsersController
         $this->usersModel->updateUser($id, $username, $email);
         // Redirect to the dashboard
         $this->viewEngine->redirect('/dashboard/users');
+    }
+
+
+    /**
+     * Add the new user page
+     * @return void
+     */
+    public function new():  void
+    {
+        $this->viewEngine->render('dashboard/users/new/index.pug');
+    }
+
+    /**
+     * Add the new user to the database and redirect to the users page
+     * @return void
+     */
+    public function newAction(): void
+    {
+        // Verify the permission
+        $this->permission();
+        // Verify the data
+        $validator = new Validator();
+        $validation = $validator->make($_POST, [
+            'username' => 'required',
+            'password' => 'required|min:6',
+            'email' => 'required|email'
+        ]);
+        $validation->validate();
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            dd($errors);
+            exit;
+        }
+        // Get the username and email and password from the POST request
+        $username = $_POST["username"];
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        $email = $_POST["email"];
+
+        if($this->usersModel->addUser($username, $password, $email))
+        {
+            $this->viewEngine->redirect("/dashboard/users");
+        }
     }
 
     /**

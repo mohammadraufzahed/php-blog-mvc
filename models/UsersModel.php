@@ -68,4 +68,18 @@ class UsersModel
         $this->db->bind(":email", $email, PDO::PARAM_STR);
         return $this->db->execute();
     }
+
+    /**
+     * Add the new user to the database
+     * @return bool
+     */
+    public function addUser(string $username, string $password, string $email): bool
+    {
+        $this->db->query("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)");
+        $this->db->bind(":username", $username, PDO::PARAM_STR);
+        $this->db->bind(":password", $password, PDO::PARAM_STR);
+        $this->db->bind(":email", $email, PDO::PARAM_STR);
+        return $this->db->execute();
+
+    }
 }
