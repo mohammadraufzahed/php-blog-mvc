@@ -2,9 +2,10 @@
 
 namespace SimplePHPFramework\controllers;
 
+use Exception;
 use SimplePHPFramework\models\UsersModel;
 use SimplePHPFramework\models\AuthModel;
-use SimplePHPFramework\kernel\View;
+
 use Rakit\Validation\Validator;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -16,29 +17,16 @@ require __DIR__ . "/../vendor/autoload.php";
 
 class UsersController
 {
-    private View $viewEngine;
+
     private UsersModel $usersModel;
     private AuthModel $authModel;
 
     public function __construct()
     {
-        // Initialize the viewEngine
-        $this->viewEngine = new View();
         // Initialize the Users Model
         $this->usersModel = new UsersModel();
         // Initialize the Auth Model
         $this->authModel = new AuthModel();
-    }
-
-    /**
-     * Render the users form
-     */
-    public function index()
-    {
-        // Check the permission
-        $this->permission();
-        $allUsers = $this->usersModel->fetchAllUsers();
-        $this->viewEngine->render("dashboard/users/home/index.pug", ['allUsers' => $allUsers]);
     }
 
     /**
@@ -48,29 +36,21 @@ class UsersController
     public function delete()
     {
         // Check the permission
-        $this->permission();
+        try {
+            $this->permission();
+        } catch (\Exception $e) {
+            http_response_code(401);
+            echo json_encode(["status" => "unauthorized"]);
+            exit;
+        }
         // Get the user id from the get request
         $user_id = $_GET['id'];
         // Delete the user from the database
-        $this->usersModel->deleteUser($user_id);
-        // Redirect to the dashboard
-        $this->viewEngine->redirect("/dashboard/users");
-    }
-
-    /**
-     * Render the user edit page
-     * @return void
-     */
-    public function edit()
-    {
-        // Check the permission
-//        $this->permission();
-        // Get the user id from the get request
-        $user_id = $_GET['id'];
-        // Get the user from the database
-        $user = $this->usersModel->getUser($user_id);
-        // Render the edit page
-        $this->viewEngine->render("dashboard/users/edit/index.pug", ['user' => $user]);
+        if ($this->usersModel->deleteUser($user_id)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "faild"]);
+        }
     }
 
     /**
@@ -80,25 +60,24 @@ class UsersController
     public function update()
     {
         // Check the permission
-//        $this->permission();
+        try {
+            $this->permission();
+        } catch (\Exception $e) {
+            http_response_code(401);
+            echo json_encode(["status" => "unauthorized"]);
+            exit;
+        }
         // Get the username and email from the post request
         $username = $_POST['username'];
         $email = $_POST['email'];
         $id = $_POST['id'];
-        $this->usersModel->updateUser($id, $username, $email);
-        // Redirect to the dashboard
-        $this->viewEngine->redirect('/dashboard/users');
+        if ($this->usersModel->updateUser($id, $username, $email)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "faild"]);
+        }
     }
 
-
-    /**
-     * Add the new user page
-     * @return void
-     */
-    public function new():  void
-    {
-        $this->viewEngine->render('dashboard/users/new/index.pug');
-    }
 
     /**
      * Add the new user to the database and redirect to the users page
@@ -107,7 +86,13 @@ class UsersController
     public function newAction(): void
     {
         // Verify the permission
-        $this->permission();
+        try {
+            $this->permission();
+        } catch (\Exception $e) {
+            http_response_code(401);
+            echo json_encode(["status" => "unauthorized"]);
+            exit;
+        }
         // Verify the data
         $validator = new Validator();
         $validation = $validator->make($_POST, [
@@ -117,8 +102,7 @@ class UsersController
         ]);
         $validation->validate();
         if ($validation->fails()) {
-            $errors = $validation->errors();
-            dd($errors);
+            echo json_encode(["status" => "faild"]);
             exit;
         }
         // Get the username and email and password from the POST request
@@ -126,29 +110,13 @@ class UsersController
         $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
         $email = $_POST["email"];
 
-        if($this->usersModel->addUser($username, $password, $email))
-        {
-            $this->viewEngine->redirect("/dashboard/users");
+        if ($this->usersModel->addUser($username, $password, $email)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "faild"]);
         }
     }
 
-    /**
-     * User Settings page
-     * @return void
-     */
-    public function userSetting()
-    {
-        // Check the permission
-//        $this->permission();
-        // Getting the user id
-        session_start();
-        $username = $_SESSION['username'] ?? "";
-        $id = $this->authModel->getUserId($username);
-        // Redirect to the Edit page
-        $this->viewEngine->redirect("/dashboard/users/edit?id=$id");
-
-    }
-    
     /**
      * Check the session if user was not admin and was not logged in redirect to dashboard page 
      */
@@ -158,7 +126,7 @@ class UsersController
         session_start();
         // Check if the user is admin
         if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] == false) {
-            $this->viewEngine->redirect("/dashboard");
+            throw new Exception();
         }
     }
 }
