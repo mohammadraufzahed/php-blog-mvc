@@ -3,31 +3,33 @@
 
 namespace SimplePHPFramework\kernel;
 
+
 require __DIR__ . "/../vendor/autoload.php";
 
 class Router
 {
-    private array $getRequests = [];
-    private array $postRequests = [];
-
+    private array $requests = ["GET" => [], "POST" => [], "DELETE" => [], "HEAD" => [], "PUT" => [], "PATCH" => []];
 
     public function __construct()
     {
     }
-
     /**
      * Handle The get request
      * @param string $uri
      * @param array $fn
      * @return void
      */
-    public function get(string $uri, array $fn): void
+    public function route(string $method, string $uri, array $fn): void
     {
-        if (isset($this->getRequests[$uri])) {
-            echo "Your not allowed to add the duplicate route in the one method<br/>Duplicate URI: $uri <br /> Method: GET";
-            exit;
+        if (isset($this->requests[$method])) {
+            if (isset($this->requests[$method][$uri])) {
+                echo "Your not allowed to add the duplicate route in the one method<br/>Duplicate URI: $uri <br /> Method: GET";
+                exit;
+            } else {
+                $this->requests[$method][$uri] = $fn;
+            }
         } else {
-            $this->getRequests[$uri] = $fn;
+            echo "$method is not supported";
         }
     }
 
@@ -35,80 +37,25 @@ class Router
      * Handle the Get routing
      * @return void
      */
-    private function handleGet(): bool
+    private function handleRequest(string $method): bool
     {
-        // Checking the request method
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            // Grab the URI path of the page
-            $uri = $_SERVER["PATH_INFO"] ?? '/';
-            // Checking the URI exists or not
-            if (isset($this->getRequests[$uri])) {
-                // Grab the controller
-                $fn = $this->getRequests[$uri];
-                // Verify the controller
-                if (!$this->checkUriFunc($fn)) {
-                    // If the controller does not exists echo the error
-                    echo "The controller of this route does not found";
-                } else {
-                    // Run the controller
-                    call_user_func($fn);
-                    return true;
-                }
+        $uri = $_SERVER["PATH_INFO"] ?? '/';
+        $routeFunction = $this->requests[$method][$uri];
+        // Checking the URI exists or not
+        if ($routeFunction) {
+            // Verify the controller
+            if (!$this->checkUriFunc($routeFunction)) {
+                // If the controller does not exists echo the error
+                echo "The controller of this route does not found";
             } else {
-                // if page not found echo the error
-                echo "Page not found";
-                exit;
+                // Run the controller
+                call_user_func($routeFunction);
+                return true;
             }
         } else {
-            return false;
-        }
-    }
-
-    /**
-     * Handle the post request
-     * @param string $uri
-     * @param array $fn
-     * @return void
-     */
-    public function post(string $uri, array $fn): void
-    {
-        if (isset($this->postRequests[$uri])) {
-            echo "Your not allowed to add the duplicate route in the one method<br/>Duplicate URI: $uri <br /> Method: POST";
+            // if page not found echo the error
+            echo "Page not found";
             exit;
-        } else {
-            $this->postRequests[$uri] = $fn;
-        }
-    }
-
-    /**
-     * Handle the post routing
-     */
-    private function handlePost()
-    {
-        // Checking the request method
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Grab the URI path of the page
-            $uri = $_SERVER["PATH_INFO"] ?? '/';
-            // Checking the URI exists or not
-            if (isset($this->postRequests[$uri])) {
-                // Grab the controller
-                $fn = $this->postRequests[$uri];
-                // Verify the controller
-                if (!$this->checkUriFunc($fn)) {
-                    // If the controller does not exists echo the error
-                    echo "The controller of this route does not found";
-                } else {
-                    // Run the controller
-                    call_user_func($fn);
-                    return true;
-                }
-            } else {
-                // if page not found echo the error
-                echo "Page not found";
-                exit;
-            }
-        } else {
-            return false;
         }
     }
 
@@ -118,12 +65,7 @@ class Router
      */
     public function start(): void
     {
-        if ($this->handleGet()) {
-        } elseif ($this->handlePost()) {
-        } else {
-            echo "Request not allowed";
-            exit;
-        }
+        $this->handleRequest($_SERVER["REQUEST_METHOD"]);
     }
 
     /**
