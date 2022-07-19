@@ -1,0 +1,10 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MARIADB_USER: php_blog
+      MARIADB_PASSWORD: php_blog
+      MARIADB_ROOT_PASSWORD: php_blog
+      MARIADB_DATABASE: php_blog
+    ports:
+      - 3306:3306

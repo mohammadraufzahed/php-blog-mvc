@@ -31,7 +31,7 @@ VALUES ('Blog', 'Simple Blog', 'Jonh', 'Pro developer');
 INSERT INTO `users`(`username`, `password`, `email`, `is_admin`)
 VALUES (
         'admin',
-        '$2y$10$4rYybUqUFNhcRJQY0qZ5IeuftsskjjkbgSDwMzRZNKszvtGnjVClu',
+        '$2y$10$GapCGXaTKFiOP3imHdiIOOy.GT1gXV8V6C.lFGNdR431PRn/MSNo6',
         'email@riseup.net',
         'Y'
     );

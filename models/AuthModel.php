@@ -60,7 +60,8 @@ class AuthModel
             $id = (int) $this->db->fetchAsObject()->id;
             return $id;
         } else {
-            dd("user not found");
+            print("user not found");
+            die;
         }
     }
 }

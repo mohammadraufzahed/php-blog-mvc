@@ -7,10 +7,10 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-define("DB_HOST", "localhost");
-define("DB_USER", "morty");
-define("DB_PASS", "mohammad82");
-define("DB_NAME", "php_mvc_blog");
+define("DB_HOST", "0.0.0.0");
+define("DB_USER", "php_blog");
+define("DB_PASS", "php_blog");
+define("DB_NAME", "php_blog");
 
 class Database
 {
@@ -20,7 +20,7 @@ class Database
     public function __construct()
     {
         # Creating the connection to the database
-        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME;
+        $dsn = "mysql:host=" . DB_HOST . ";port=3306;dbname=" . DB_NAME;
         try {
             $this->conn = new PDO($dsn, DB_USER, DB_PASS);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

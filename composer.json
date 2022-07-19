@@ -21,5 +21,10 @@
         "ext-pdo": "*",
         "pug-php/pug": "^3.4",
         "rakit/validation": "^1.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "nodejs-php-fallback/nodejs-php-fallback": true
+        }
     }
 }
