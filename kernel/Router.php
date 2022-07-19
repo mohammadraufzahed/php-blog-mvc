@@ -30,6 +30,7 @@ class Router
             }
         } else {
             echo "$method is not supported";
+            exit;
         }
     }
 
