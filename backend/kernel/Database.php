@@ -7,7 +7,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-define("DB_HOST", "0.0.0.0");
+define("DB_HOST", "database");
 define("DB_USER", "php_blog");
 define("DB_PASS", "php_blog");
 define("DB_NAME", "php_blog");
