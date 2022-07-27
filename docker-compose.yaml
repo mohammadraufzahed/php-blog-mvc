@@ -13,7 +13,7 @@ services:
       context: backend
       dockerfile: nginx.dockerfile
     ports:
-      - 801:80
+      - 80:80
     networks:
       - php
   php:
