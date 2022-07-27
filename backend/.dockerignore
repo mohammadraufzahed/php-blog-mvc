@@ -1,0 +1,5 @@
+composer.lock
+Dockerfile
+nginx.Dockerfile
+php-fpm.dockerfile
+vendor

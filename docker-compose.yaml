@@ -1,10 +1,31 @@
 services:
-  mariadb:
+  database:
     image: mariadb:latest
     environment:
       MARIADB_USER: php_blog
       MARIADB_PASSWORD: php_blog
       MARIADB_ROOT_PASSWORD: php_blog
       MARIADB_DATABASE: php_blog
+    networks:
+      - database
+  nginx:
+    build:
+      context: backend
+      dockerfile: nginx.dockerfile
     ports:
-      - 3306:3306
+      - 801:80
+    networks:
+      - php
+  php:
+    build:
+      context: backend
+      dockerfile: php-fpm.dockerfile
+    networks:
+      - php
+      - database
+    expose:
+      - 9000
+
+networks:
+  php:
+  database:
