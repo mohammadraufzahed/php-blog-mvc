@@ -40,8 +40,8 @@ class Router
      */
     private function handleRequest(string $method): bool
     {
-        $uri = $_SERVER["PATH_INFO"] ?? '/';
-        $routeFunction = $this->requests[$method][$uri];
+        $uri = $_SERVER["REQUEST_URI"] == "" ? '/' : $_SERVER["REQUEST_URI"];
+        $routeFunction = $this->requests[$method][$uri] ?? null;
         // Checking the URI exists or not
         if ($routeFunction) {
             // Verify the controller
