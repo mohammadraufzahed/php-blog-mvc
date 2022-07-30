@@ -8,15 +8,24 @@ services:
       MARIADB_DATABASE: php_blog
     networks:
       - database
-  nginx:
+  php-nginx:
+    depends_on:
+      - database
+      - php
     build:
       context: backend
       dockerfile: nginx.dockerfile
-    ports:
-      - 80:80
+    deploy:
+      replicas: 5
+    restart: unless-stopped
+    expose:
+      - 80-84
     networks:
       - php
+      - main-nginx
   php:
+    depends_on:
+      - database
     build:
       context: backend
       dockerfile: php-fpm.dockerfile
@@ -25,7 +34,19 @@ services:
       - database
     expose:
       - 9000
+  nginx:
+    image: nginx:latest
+    depends_on:
+      -  php-nginx
+    networks:
+      - main-nginx
+    volumes:
+      - "./nginx:/etc/nginx/conf.d"
+    ports:
+      - 80:80
+      - 443:443   
 
 networks:
   php:
   database:
+  main-nginx:
